@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصادر والوارد - إدارة نجد</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <div class="logo-section">
+                        <div class="logo">🏢</div>
+                        <div class="brand">
+                            <h1>إدارة نجد</h1>
+                            <p>الصادر والوارد</p>
+                        </div>
+                    </div>
+
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                        <li><a href="dashboard.html" class="nav-link">لوحة التحكم</a></li>
+                        <li><a href="client-panel.html" class="nav-link">حسابي</a></li>
+                        <li><a href="correspondence.html" class="nav-link active">الصادر والوارد</a></li>
+                    </ul>
+
+                    <div class="user-profile">
+                        <span id="corrName" class="user-name">مستخدم</span>
+                        <button id="corrLogout" class="btn btn-small btn-outline">خروج</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="container">
+            <section class="dashboard-header">
+                <div class="header-content">
+                    <h2>إدارة الصادر والوارد</h2>
+                    <p class="header-subtitle">ربط وتتبع المراسلات</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="newIncomingBtn">وارد جديد</button>
+                    <button class="btn btn-primary" id="newOutgoingBtn">صادر جديد</button>
+                </div>
+            </section>
+
+            <div class="correspondence-tabs">
+                <button class="corr-tab-btn active" data-tab="incoming-tab">الوارد</button>
+                <button class="corr-tab-btn" data-tab="outgoing-tab">الصادر</button>
+                <button class="corr-tab-btn" data-tab="linked-tab">المرتبطة</button>
+            </div>
+
+            <!-- Incoming Tab -->
+            <section id="incoming-tab" class="corr-tab-content active">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>المراسلات الواردة</h3>
+                        <div class="table-actions">
+                            <input type="search" id="searchIncoming" placeholder="بحث..." class="search-input">
+                            <select id="filterIncomingStatus" class="filter-select">
+                                <option value="">جميع الحالات</option>
+                                <option value="جديد">جديد</option>
+                                <option value="مراجعة">مراجعة</option>
+                                <option value="مرد">مرد</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="corr-table">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>المرسل</th>
+                                    <th>الموضوع</th>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="incomingBody">
+                                <tr class="empty-row"><td colspan="6">لا توجد مراسلات واردة</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Outgoing Tab -->
+            <section id="outgoing-tab" class="corr-tab-content">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>المراسلات الصادرة</h3>
+                        <div class="table-actions">
+                            <input type="search" id="searchOutgoing" placeholder="بحث..." class="search-input">
+                            <select id="filterOutgoingStatus" class="filter-select">
+                                <option value="">جميع الحالات</option>
+                                <option value="مسودة">مسودة</option>
+                                <option value="مرسلة">مرسلة</option>
+                                <option value="مستقبلة">مستقبلة</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="corr-table">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>المستقبل</th>
+                                    <th>الموضوع</th>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="outgoingBody">
+                                <tr class="empty-row"><td colspan="6">لا توجد مراسلات صادرة</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Linked Correspondences Tab -->
+            <section id="linked-tab" class="corr-tab-content">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>المراسلات المرتبطة</h3>
+                        <button class="btn btn-small btn-primary" id="linkCorrBtn">ربط مراسلات</button>
+                    </div>
+                    <div class="linked-correspondences" id="linkedCorrList">
+                        <div class="empty-state">
+                            <p>لا توجد مراسلات مرتبطة</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- New Incoming Modal -->
+    <div id="newIncomingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>وارد جديد</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="newIncomingForm" class="modal-form">
+                <div class="form-group">
+                    <label>من</label>
+                    <input type="text" placeholder="الجهة المرسلة" required>
+                </div>
+                <div class="form-group">
+                    <label>الموضوع</label>
+                    <input type="text" placeholder="موضوع المراسلة" required>
+                </div>
+                <div class="form-group">
+                    <label>المحتوى</label>
+                    <textarea placeholder="نص المراسلة" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>التاريخ</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>المرفقات</label>
+                    <input type="file" multiple>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">إضافة</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('newIncomingModal')">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Outgoing Modal -->
+    <div id="newOutgoingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>صادر جديد</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="newOutgoingForm" class="modal-form">
+                <div class="form-group">
+                    <label>إلى</label>
+                    <input type="text" placeholder="الجهة المستقبلة" required>
+                </div>
+                <div class="form-group">
+                    <label>الموضوع</label>
+                    <input type="text" placeholder="موضوع المراسلة" required>
+                </div>
+                <div class="form-group">
+                    <label>المحتوى</label>
+                    <textarea placeholder="نص المراسلة" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>التاريخ</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>المرفقات</label>
+                    <input type="file" multiple>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">إضافة</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('newOutgoingModal')">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link Correspondences Modal -->
+    <div id="linkCorrModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ربط المراسلات</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="linkCorrForm" class="modal-form">
+                <div class="form-group">
+                    <label>المراسلة الواردة</label>
+                    <select id="linkIncoming" required>
+                        <option value="">اختر وارد</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>المراسلة الصادرة</label>
+                    <select id="linkOutgoing" required>
+                        <option value="">اختر صادر</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">ربط</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('linkCorrModal')">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 إدارة نجد - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="correspondence.js"></script>
+</body>
+</html>
