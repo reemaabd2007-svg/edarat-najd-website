@@ -1,0 +1,272 @@
+<!-- ========================================
+     لوحة الإدارة - Admin Panel
+     ======================================== -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - إدارة نجد</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <div class="logo-section">
+                        <div class="logo">🏢</div>
+                        <div class="brand">
+                            <h1>إدارة نجد</h1>
+                            <p>لوحة الإدارة</p>
+                        </div>
+                    </div>
+
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                        <li><a href="dashboard.html" class="nav-link">التقارير</a></li>
+                        <li><a href="admin-panel.html" class="nav-link active">الإدارة</a></li>
+                        <li><a href="correspondence.html" class="nav-link">الصادر والوارد</a></li>
+                    </ul>
+
+                    <div class="user-profile">
+                        <span id="adminName" class="user-name">إداري</span>
+                        <button id="adminLogout" class="btn btn-small btn-outline">خروج</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Admin Header -->
+            <section class="dashboard-header">
+                <div class="header-content">
+                    <h2>لوحة الإدارة</h2>
+                    <p class="header-subtitle">إدارة الطلبات والعاملين والخدمات</p>
+                </div>
+            </section>
+
+            <!-- Tabs Navigation -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="orders-tab">الطلبات</button>
+                <button class="tab-btn" data-tab="staff-tab">فريق العمل</button>
+                <button class="tab-btn" data-tab="services-tab">الخدمات</button>
+                <button class="tab-btn" data-tab="reports-tab">التقارير</button>
+                <button class="tab-btn" data-tab="settings-tab">الإعدادات</button>
+            </div>
+
+            <!-- Orders Tab -->
+            <section id="orders-tab" class="tab-content active">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>إدارة الطلبات</h3>
+                        <button class="btn btn-small btn-primary" id="assignOrderBtn">تعيين طلب</button>
+                    </div>
+
+                    <div class="admin-toolbar">
+                        <select id="adminOrderFilter" class="filter-select">
+                            <option value="">جميع الطلبات</option>
+                            <option value="جديد">جديدة</option>
+                            <option value="قيد المراجعة">قيد المراجعة</option>
+                            <option value="قيد التنفيذ">قيد التنفيذ</option>
+                            <option value="مكتمل">مكتملة</option>
+                        </select>
+                        <input type="search" id="adminSearchOrder" placeholder="بحث في الطلبات..." class="search-input">
+                        <button class="btn btn-secondary" id="adminBulkAction">إجراء جماعي</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAll"></th>
+                                    <th>رقم الطلب</th>
+                                    <th>العميل</th>
+                                    <th>الخدمة</th>
+                                    <th>الحالة</th>
+                                    <th>المسؤول</th>
+                                    <th>الموعد</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminOrdersBody">
+                                <tr class="empty-row">
+                                    <td colspan="8">لا توجد طلبات</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Staff Tab -->
+            <section id="staff-tab" class="tab-content">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>فريق العمل</h3>
+                        <button class="btn btn-small btn-primary" id="addStaffBtn">إضافة موظف</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>البريد</th>
+                                    <th>الدور</th>
+                                    <th>الطلبات المعينة</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staffBody">
+                                <tr class="empty-row">
+                                    <td colspan="6">لا يوجد موظفون</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Tab -->
+            <section id="services-tab" class="tab-content">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>الخدمات</h3>
+                        <button class="btn btn-small btn-primary" id="addServiceBtn">خدمة جديدة</button>
+                    </div>
+
+                    <div class="services-grid" id="adminServicesGrid">
+                        <div class="empty-state">
+                            <p>لا توجد خدمات</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Tab -->
+            <section id="reports-tab" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>التقارير الشهرية</h3>
+                        </div>
+                        <div class="report-content" id="monthlyReport">
+                            جاري التحميل...
+                        </div>
+                        <button class="btn btn-small btn-secondary" id="downloadMonthlyBtn">تحميل</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>إحصائيات الأداء</h3>
+                        </div>
+                        <div class="report-content" id="performanceReport">
+                            جاري التحميل...
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settings-tab" class="tab-content">
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3>إعدادات النظام</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>اسم الشركة</label>
+                            <input type="text" value="إدارة نجد" id="companyName">
+                        </div>
+
+                        <div class="form-group">
+                            <label>البريد الإلكتروني الرسمي</label>
+                            <input type="email" value="hello@edaratnajd.sa" id="companyEmail">
+                        </div>
+
+                        <div class="form-group">
+                            <label>رقم الهاتف</label>
+                            <input type="tel" value="0565670443" id="companyPhone">
+                        </div>
+
+                        <div class="form-group">
+                            <label>متوسط وقت الإنجاز (بالساعات)</label>
+                            <input type="number" value="48" id="avgCompletionTime">
+                        </div>
+
+                        <div class="form-group">
+                            <label>سعر الخدمة الإضافية</label>
+                            <input type="number" value="100" id="extraServicePrice">
+                        </div>
+
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" id="saveAdminSettings">حفظ الإعدادات</button>
+                            <button class="btn btn-secondary" id="resetSettings">إعادة تعيين</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Assign Order Modal -->
+    <div id="assignOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تعيين طلب</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="assignOrderForm" class="modal-form">
+                <div class="form-group">
+                    <label>الطلب</label>
+                    <select id="assignOrderSelect" required>
+                        <option value="">اختر طلباً</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>تعيين إلى</label>
+                    <select id="assignStaffSelect" required>
+                        <option value="">اختر موظفاً</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>الأولوية</label>
+                    <select id="assignPrioritySelect">
+                        <option value="عادي">عادي</option>
+                        <option value="مهم">مهم</option>
+                        <option value="عاجل">عاجل</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>ملاحظات</label>
+                    <textarea placeholder="أي ملاحظات إضافية؟"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">تعيين</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('assignOrderModal')">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 إدارة نجد - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="admin-panel.js"></script>
+</body>
+</html>
